@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cxf="http://camel.apache.org/schema/cxf" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<import resource="classpath:META-INF/spring/camel-twitter-Context.xml" />
+
+	<cxf:rsServer id="rsServer" address="http://localhost:9090/route"
+		serviceClass="com.redhat.shopping.demo.application.camel.rest.ShoppingHomeService" />
+
+	<!-- this is ordinary JPA spring configuration -->
+
+	<bean id="jpa" class="org.apache.camel.component.jpa.JpaComponent">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="jpaTemplate" class="org.springframework.orm.jpa.JpaTemplate">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<!-- this is ordinary JPA spring configuration -->
+	<bean id="transactionTemplate"
+		class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager">
+			<bean class="org.springframework.orm.jpa.JpaTransactionManager">
+				<property name="entityManagerFactory" ref="entityManagerFactory" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="fuseshoppingmodel" />
+	</bean>
+
+
+
+	<camelContext trace="false" id="camel-data-xontext" xmlns="http://camel.apache.org/schema/spring">
+    <route id="camel-data-route">
+        <from uri="cxfrs:bean:rsServer"/>
+        <to uri="sql:{sql.Productlines.findAll}"/>
+        <log message="found in DB ${body}"/>
+        <marshal>
+            <json library="Jackson"/>
+        </marshal>
+        <setHeader headerName="CamelCxfRsUsingHttpAPI">
+            <constant>TRUE</constant>
+        </setHeader>
+        <setHeader headerName="Accept">
+            <constant>application/json</constant>
+        </setHeader>
+        <convertBodyTo type="java.lang.String"/>
+        <to uri="seda:productAdditionTweet"/>
+    </route>
+</camelContext>
+</beans>

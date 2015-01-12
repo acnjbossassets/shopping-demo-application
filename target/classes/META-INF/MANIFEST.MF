@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1421056663033
+Build-Jdk: 1.7.0_51
+Built-By: sicilian
+Bundle-ManifestVersion: 2
+Bundle-Name: A Camel Blueprint Route
+Bundle-SymbolicName: shopping-demo-application
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.redhat.shopping.demo.application.camel.beans;uses:="
+ com.redhat.shopping.demo.application.pojos.jpa";version="1.0.0.SNAPSHOT
+ ",com.redhat.shopping.demo.application.camel.rest;uses:="javax.ws.rs";v
+ ersion="1.0.0.SNAPSHOT",com.redhat.shopping.demo.application.camel.rout
+ es;uses:="org.apache.camel.builder,org.apache.camel.model,org.apache.ca
+ mel,org.apache.camel.builder.xml,org.apache.camel.component.twitter";ve
+ rsion="1.0.0.SNAPSHOT",com.redhat.shopping.demo.application.pojos.jpa;u
+ ses:="javax.xml.bind.annotation,javax.xml.bind,javax.xml.namespace";ver
+ sion="1.0.0.SNAPSHOT"
+Import-Package: javax.ws.rs;version="[2.0,3)",javax.xml.bind,javax.xml.b
+ ind.annotation,javax.xml.namespace,org.apache.camel;version="[2.12,3)",
+ org.apache.camel.builder;version="[2.12,3)",org.apache.camel.builder.xm
+ l;version="[2.12,3)",org.apache.camel.component.jpa,org.apache.camel.co
+ mponent.sql;version="[2.12,3)",org.apache.camel.component.twitter;versi
+ on="[2.12,3)",org.apache.camel.model;version="[2.12,3)",org.apache.comm
+ ons.dbcp;version="[1.4,2)",org.osgi.service.blueprint;version="[1.0.0,2
+ .0.0)",org.springframework.orm.jpa,org.springframework.transaction.supp
+ ort
+Tool: Bnd-1.50.0
