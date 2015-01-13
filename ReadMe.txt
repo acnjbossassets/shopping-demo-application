@@ -1,28 +1,14 @@
-Home Loan Project on Blueprint (OSGi)
-=========================================
+eployment:
 
-This is a follow up demo from previous demo, 
-https://github.com/weimeilin79/homeloan-part2
+1) Running it inside an embedded Camel instance:
 
-The story behind the home loan demo is we have a system, that takes in XML files from different vendor's home loan application, they will place their customer input into 2 different XML files, one with it's customer data, the other with their housing details. Both files will be place into same folder either by FTP or Batch generated overnight.
+    mvn clean camel:run
 
-First demo was to take in and process the information, first we need to separate the 2 kinds of files, because they are handled differently. And appraised the value of the house before sending it to a messaging broker.
+2) Build, Install and Deploy it as OSGi bundle:
 
-Second demo,  was about processing the customer data, by reading the xml file and store it into a Postgres Database.
+    mvn clean install
 
-Third demo, we were added value to the house by the number of surrounding schools to the house. we referenced Google App Engine (Google Geocoding API to get the co-ordinate from Address, then use Google Places API to get number of surrounding schools) and then updated the new appraised value into   house table in Postgres Database.
-
-In this demo, the vendors are asking for an service, that provides all the data with the updated appraised house value back to them. And they are requesting if the information can be provided through a Restful Web service. It's a piece of cake for JBoss Fuse developer to expose an service via Web Service, we simply setup and configure the endpoints. 
-
-To build this project use
-
-    mvn install
-
-To run the project you can execute the following Maven goal
-
-    mvn camel:run
-
-For more details, please visit
-http://wei-meilin.blogspot.tw/2014/07/red-hat-jboss-fuse-getting-started-home_21.html
-http://wei-meilin.blogspot.tw/2014/07/red-hat-jboss-fuse-getting-started-home_22.html
-
+then please enter this in the Karaf Console:
+	features:install camel-sql
+	features:install camel-twitter
+    osgi:install -s mvn:com.redhat/shopping-demo-application/1.0.0-SNAPSHOT

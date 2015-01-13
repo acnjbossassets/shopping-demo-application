@@ -265,7 +265,7 @@
 		<defaultGoal>install</defaultGoal>
 
 	 <plugins>
-				<!--<plugin>
+				<!-- <plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
 				<version>1.0-alpha-2</version>

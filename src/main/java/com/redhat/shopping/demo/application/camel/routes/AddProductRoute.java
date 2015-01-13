@@ -39,7 +39,7 @@ public class AddProductRoute extends RouteBuilder {
 		
 		from("file://data/datafile")
 		.log("File-data = ${body}")
-		.split().xpath("/products-list/products")
+		.split().xpath("/products-list/products").parallelProcessing()
 		.to("activemq:queue:insertProductsFromQueue")
 		.transform().constant("Your Request Is Being Processed");
 		

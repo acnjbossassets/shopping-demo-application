@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <products-list>
 	<products>
-		<productCode>newwS10_1678</productCode>
-		<productName>1969 Harley Davidson Ultimate Chopper Name1</productName>
+		<productCode>newmyId1</productCode>
+		<productName>Fuse Demo 1</productName>
 		<productLine>Motorcycles</productLine>
 		<productScale>1:10</productScale>
 		<productVendor>Min Lin Diecast</productVendor>
@@ -12,8 +12,8 @@
 		<MSRP>95.7</MSRP>
 	</products>
 	<products>
-		<productCode>newwwS10_1949</productCode>
-		<productName>1952 Alpine Renault 1300 Name2</productName>
+		<productCode>newmyId2</productCode>
+		<productName>Fuse Demo 2</productName>
 		<productLine>Classic Cars</productLine>
 		<productScale>1:10</productScale>
 		<productVendor>Classic Metal Creations</productVendor>
@@ -23,8 +23,8 @@
 		<MSRP>214.3</MSRP>
 	</products>
 	<products>
-		<productCode>newwwS10_2016</productCode>
-		<productName>1996 Moto Guzzi 1100i Name3</productName>
+		<productCode>newmyId3</productCode>
+		<productName>Fuse Demo 3</productName>
 		<productLine>Motorcycles</productLine>
 		<productScale>1:10</productScale>
 		<productVendor>Highway 66 Mini Classics</productVendor>
