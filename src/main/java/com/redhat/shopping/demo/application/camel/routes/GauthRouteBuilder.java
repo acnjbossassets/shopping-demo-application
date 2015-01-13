@@ -6,39 +6,33 @@ import org.apache.camel.builder.RouteBuilder;
 
 public class GauthRouteBuilder extends RouteBuilder {
 
-    private String application;
-
-    /**
-     * Sets the name of the GAE application.
-     *
-     * @param application a GAE application name.
-     */
-    public void setApplication(String application) {
-        this.application = application;
-    }
-
-    @Override
-    public void configure() throws Exception {
-
-        // Callback URL for sending back an authorized access token.
-        String encodedCallback = URLEncoder.encode(String.format("https://%s.appspot.com/camel/handler", application), "UTF-8");
-        // Google should issue an access token that is scoped to calendar feeds.
+	@Override
+	public void configure() throws Exception {
+		getContext().setTracing(true);
+		
+		
+		// Calback URL to redirect user from Google Authorization back to the web application
+        String encodedCallback = URLEncoder.encode("https://localhost:8443/handler", "UTF-8");
+        // Application will request for authorization to access a user's Google Calendar
         String encodedScope = URLEncoder.encode("http://www.google.com/calendar/feeds/", "UTF-8");
 
-        // Route for obtaining an unauthorized request token from Google Accounts. The
-        // response redirects the browser to an authorization page provided by Google.
-        from("ghttp:///authorize")
+        // Route 1: A GET request to http://localhost/authorize will trigger the the OAuth
+        // sequence of interactions. The gauth:authorize endpoint obtains an unauthorized request
+        // token from Google and then redirects the user (browser) to a Google authorization page.
+        from("jetty:http://0.0.0.0:8080/authorize")
             .to("gauth:authorize?callback=" + encodedCallback + "&scope=" + encodedScope);
 
-        
-        // Handles callbacks from Google Accounts which contain an authorized request token.
-        // The authorized request token is upgraded to an access token which is stored in
-        // the response message header. The TutorialTokenProcessor is application-specific
-        // and stores the access token (plus access token secret) is cookies. It further
-        // redirects the user to the application's main location (/).
-        from("ghttp:///handler")
-            .to("gauth:upgrade");
-            //.process(new TutorialTokenProcessor());
-    }
-
+        // Route 2: Handle callback from Google. After the user granted access to Google Calendar
+        // Google redirects the user to https://localhost:8443/handler (see callback) along
+        // with an authorized request token. The gauth:access endpoint exchanges the authorized
+        // request token against a long-lived access token.
+        from("jetty:https://0.0.0.0:8443/handler")
+            .to("gauth:upgrade")
+            .log("Google Access Token =  ${header.CamelGauthAccessToken}")
+            .log("Google Access Token Secret =  ${header.CamelGauthAccessTokenSecret}");
+            // The access token can be obtained from
+            // exchange.getOut().getHeader(GAuthUpgradeBinding.GAUTH_ACCESS_TOKEN)
+            // The access token secret can be obtained from
+            // exchange.getOut().getHeader(GAuthUpgradeBinding.GAUTH_ACCESS_TOKEN_SECRET)
+	}
 }

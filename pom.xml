@@ -9,7 +9,7 @@
 	<packaging>bundle</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 
-	<name>A Camel Blueprint Route</name>
+	<name>Shopping Apllication Demo</name>
 	<url>http://www.myorganization.org</url>
 
 	<properties>
@@ -108,6 +108,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-gae</artifactId>
+			<version>${camel.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
@@ -176,6 +182,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.0.5</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- the ActiveMQ client with connection pooling -->
@@ -264,25 +271,12 @@
 	<build>
 		<defaultGoal>install</defaultGoal>
 
-	 <plugins>
-				<!-- <plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0-alpha-2</version>
-				<executions>
-					<execution>
-						<phase>initialize</phase>
-						<goals>
-							<goal>read-project-properties</goal>
-						</goals>
-						<configuration>
-							<files>
-								<file>${project.basedir}/salesforce.cfg</file>
-							</files>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin> -->
+		<plugins>
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>properties-maven-plugin</artifactId> 
+				<version>1.0-alpha-2</version> <executions> <execution> <phase>initialize</phase> 
+				<goals> <goal>read-project-properties</goal> </goals> <configuration> <files> 
+				<file>${project.basedir}/salesforce.cfg</file> </files> </configuration> 
+				</execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -310,8 +304,8 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>shopping-demo-application</Bundle-SymbolicName>
-						<Private-Package>com.redhat.homeloan.*</Private-Package>
-						<Import-Package>*</Import-Package>
+						<Private-Package>com.redhat.shopping.demo.application.*</Private-Package>
+						<Import-Package>com.mysql.jdbc,org.apache.camel.component.gae.auth,*</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>

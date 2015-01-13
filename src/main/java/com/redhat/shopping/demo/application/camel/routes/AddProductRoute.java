@@ -37,7 +37,7 @@ public class AddProductRoute extends RouteBuilder {
 		});
 		
 		
-		from("file://data/datafile")
+		from("file:C:/Users/sicilian/Documents/GitHub/shopping-demo-application/data/datafile")
 		.log("File-data = ${body}")
 		.split().xpath("/products-list/products").parallelProcessing()
 		.to("activemq:queue:insertProductsFromQueue")

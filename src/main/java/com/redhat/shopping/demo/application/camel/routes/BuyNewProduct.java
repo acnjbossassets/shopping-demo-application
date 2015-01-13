@@ -9,9 +9,6 @@ public class BuyNewProduct extends RouteBuilder {
 		from("vm:buyProductsByCode")
 		.log("Buy Request Started")
 		.inOut("bean:buyProductValidation?method=validateCreditProductAvailability")
-		/*.choice()
-		.when(simple("${body}[1]==null"))
-			.to("ghttp:///authorize")*/
 		.choice()
 		.when(simple("${header.validateCreditProductAvailability}"))
 		.to("activemq:buyProductsByCode")

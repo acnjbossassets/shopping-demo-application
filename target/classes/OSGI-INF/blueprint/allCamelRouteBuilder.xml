@@ -9,6 +9,7 @@
 		<camel:routeBuilder id="addProductsRoute" ref="addProductRouteRef" />
 		<camel:routeBuilder id="twitterUpdateRoute" ref="twitterBuilder" />
 		<camel:routeBuilder id="buyNewProductRoute" ref="buyNewProduct"/>
+		<camel:routeBuilder id="gauthRouteBuilderRoute" ref="gauthRouteBuilder"/>
 	</camelContext>
 
 </blueprint>
