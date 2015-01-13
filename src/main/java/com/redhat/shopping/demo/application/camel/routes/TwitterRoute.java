@@ -57,7 +57,7 @@ public class TwitterRoute extends RouteBuilder {
 		from("vm:productAdditionTweet")
 			.convertBodyTo(String.class)
 			.log("${body}")
-    		.log("Tweeting the product information: ${body.name}")
+    		.log("Tweeting the product information: ${body}")
     		.to("twitter://timeline/user");
 
     }

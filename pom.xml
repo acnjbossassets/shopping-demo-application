@@ -92,6 +92,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-twitter</artifactId>
 			<version>${camel.version}</version>
@@ -190,6 +195,12 @@
 			<version>5.9.0.redhat-610379</version>
 		</dependency>
 
+		<!-- Salesforce component dependency for compiling SObject POJOs -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-salesforce</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
 
 		<!-- the ActiveMQ broker is optional and can be removed if connecting to 
 			a remote broker only -->
@@ -253,7 +264,25 @@
 	<build>
 		<defaultGoal>install</defaultGoal>
 
-		<plugins>
+	 <plugins>
+				<!--<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-2</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>${project.basedir}/salesforce.cfg</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -296,7 +325,6 @@
 					<useBlueprint>true</useBlueprint>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 

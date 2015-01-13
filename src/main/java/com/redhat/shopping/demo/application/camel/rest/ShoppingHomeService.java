@@ -29,18 +29,11 @@ public class ShoppingHomeService {
 		return null;
 	}
 	
-	@GET
-	@Path("/products/{productID}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String showProductsByID(@PathParam("productID") String productID){
-		return null;
-	}
-	
 
 	@GET
-	@Path("/products/{productID}/buy")
+	@Path("/products/{productCode}/buy")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String buyProductsByID(@PathParam("productID") String productID,@CookieParam("userDetails") String customerID){
+	public String buyProductsByCode(@PathParam("productCode") String productCode,@CookieParam("userDetails") String customerID){
 		return null;
 	}
 	

@@ -8,6 +8,7 @@
 		trace="false">
 		<camel:routeBuilder id="addProductsRoute" ref="addProductRouteRef" />
 		<camel:routeBuilder id="twitterUpdateRoute" ref="twitterBuilder" />
+		<camel:routeBuilder id="buyNewProductRoute" ref="buyNewProduct"/>
 	</camelContext>
 
 </blueprint>

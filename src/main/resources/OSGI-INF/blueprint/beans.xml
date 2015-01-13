@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-       xmlns:camel="http://camel.apache.org/schema/blueprint"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+	xmlns:camel="http://camel.apache.org/schema/blueprint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
        http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
-  
- <bean id="restRouteRef"
+
+	<bean id="restRouteRef"
 		class="com.redhat.shopping.demo.application.camel.routes.RestRoute" />
 
 
@@ -19,6 +18,9 @@
 		<property name="accessTokenSecret"
 			value="lsJjmBJ3XYBizafCWQYhceuVicBVZPuqnupmLiMgDONzB" />
 	</bean>
+	
+	<bean id="buyNewProduct"
+		class="com.redhat.shopping.demo.application.camel.routes.BuyNewProduct" />
 
 	<bean id="addProductRouteRef"
 		class="com.redhat.shopping.demo.application.camel.routes.AddProductRoute" />
@@ -37,4 +39,14 @@
 	<bean id="sql" class="org.apache.camel.component.sql.SqlComponent">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<!-- configuring activemq -->
+	
+	
+	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+		<property name="brokerURL" value="vm://localhost" />
+	</bean>
+	
+	<bean id="logProductFetchTime" class="com.redhat.shopping.demo.application.camel.beans.LogProductFetchTime"/>
+	
+	<bean id="buyProductValidation" class="com.redhat.shopping.demo.application.camel.pojo.BuyProductValidation"></bean>
 </blueprint>

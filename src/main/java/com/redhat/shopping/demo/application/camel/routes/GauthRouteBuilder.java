@@ -35,7 +35,7 @@ public class GauthRouteBuilder extends RouteBuilder {
         // The authorized request token is upgraded to an access token which is stored in
         // the response message header. The TutorialTokenProcessor is application-specific
         // and stores the access token (plus access token secret) is cookies. It further
-        // redirects the user to the application's main location (/oauth/calendar).
+        // redirects the user to the application's main location (/).
         from("ghttp:///handler")
             .to("gauth:upgrade");
             //.process(new TutorialTokenProcessor());

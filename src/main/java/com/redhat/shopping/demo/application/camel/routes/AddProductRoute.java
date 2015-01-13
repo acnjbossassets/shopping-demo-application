@@ -1,18 +1,48 @@
 package com.redhat.shopping.demo.application.camel.routes;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.List;
+
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.NoErrorHandlerBuilder;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.converter.jaxb.JaxbDataFormat;
+import org.apache.commons.io.IOUtils;
 
 public class AddProductRoute extends RouteBuilder {
 	public void configure() {
 		errorHandler(new NoErrorHandlerBuilder());
-		from("vm:addProducts")
-		.split().xpath("/products/product")
-		.setHeader("productName", simple("${body.name}"))
-		.setHeader("productcode", xpath("/product/productcode"))
-		.log("${header.productCode}")
-		.log("${header.productName}")
-		.to("sql:insert  into `products`(`productCode`,`productName`,`productLine`,`productScale`,`productVendor`,`productDescription`,`quantityInStock`,`buyPrice`,`MSRP`) values ('myNewProduct','1969 Harley Davidson Ultimate Chopper','Motorcycles','1:10','Min Lin Diecast','This replica features working kickstand, front suspension, gear-shift lever, footbrake lever, drive chain, wheels and steering. All parts are particularly delicate due to their precise scale and require special care and attention.',7933,48.81,95.7)")
-		;
+		JaxbDataFormat dataFormat = new JaxbDataFormat("com.redhat.shopping.demo.application.pojos.jpa");
+		dataFormat.setPartClass("com.redhat.shopping.demo.application.pojos.jpa.Products");
+		dataFormat.setPrettyPrint(true);
+		
+		from("cxf:bean:productAddition")
+		.process(new Processor() {
+			
+			@Override
+			public void process(Exchange exchange) throws Exception {
+				String filePath = (String)exchange.getIn().getBody(List.class).get(0);
+				System.out.println("FilePath = "+filePath);
+				if(filePath!=null){
+					IOUtils.copy(new FileInputStream(new File(filePath)),new FileOutputStream(new File("C:/Users/sicilian/Documents/GitHub/shopping-demo-application/data/datafile/add_products.xml")));
+				}else{
+				exchange.getIn().setBody("File Path Is Null");
+				}
+				
+				
+			}
+		});
+		
+		
+		from("file://data/datafile")
+		.log("File-data = ${body}")
+		.split().xpath("/products-list/products")
+		.to("activemq:queue:insertProductsFromQueue")
+		.transform().constant("Your Request Is Being Processed");
+		
+		
 	}
 }
