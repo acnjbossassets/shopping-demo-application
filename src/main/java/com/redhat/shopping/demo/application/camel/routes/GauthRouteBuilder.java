@@ -27,7 +27,7 @@ public class GauthRouteBuilder extends RouteBuilder {
         // with an authorized request token. The gauth:access endpoint exchanges the authorized
         // request token against a long-lived access token.
         from("jetty:https://0.0.0.0:8443/handler")
-            .to("gauth:upgrade")
+        	.to("gauth:upgrade")
             .log("Google Access Token =  ${header.CamelGauthAccessToken}")
             .log("Google Access Token Secret =  ${header.CamelGauthAccessTokenSecret}");
             // The access token can be obtained from
