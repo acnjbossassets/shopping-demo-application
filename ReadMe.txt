@@ -1,4 +1,4 @@
-eployment:
+Deployment:
 
 1) Running it inside an embedded Camel instance:
 
@@ -16,5 +16,5 @@ then please enter this in the Karaf Console:
 	features:install camel-twitter
 	features:install  camel-jackson
 	features:install camel-salesforce
-	osgi:install -s war:mvn:com.redhat/application-interface/1.0.0-SNAPSHOT/war?Web-ContextPath=shoppingRest
+	osgi:install -s war:mvn:com.redhat/application-interface/1.0.0-SNAPSHOT/war?Web-ContextPath=shoppingApplication
     osgi:install -s wrap:mvn:com.redhat/application/1.0.0-SNAPSHOT

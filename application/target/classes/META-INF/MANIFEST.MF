@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1423889170681
+Bnd-LastModified: 1423921269795
 Build-Jdk: 1.7.0_51
 Built-By: sicilian
 Bundle-ManifestVersion: 2
@@ -14,24 +14,25 @@ Export-Package: com.redhat.shopping.demo.application.camel.beans;uses:="
  javax.ws.rs";version="1.0.0.SNAPSHOT",com.redhat.shopping.demo.applicat
  ion.camel.routes;uses:="org.apache.camel,org.apache.commons.io,org.apac
  he.camel.builder,org.apache.camel.model,org.apache.camel.converter.jaxb
- ,org.apache.camel.component.twitter";version="1.0.0.SNAPSHOT",com.redha
- t.shopping.demo.application.camel.ws;uses:="javax.jws";version="1.0.0.S
- NAPSHOT",com.redhat.shopping.demo.application.pojos.jpa;uses:="javax.xm
- l.bind.annotation";version="1.0.0.SNAPSHOT",org.apache.camel.salesforce
- .dto;uses:="org.apache.camel.component.salesforce.api.dto,com.thoughtwo
- rks.xstream.annotations,org.codehaus.jackson.annotate";version="1.0.0.S
- NAPSHOT"
+ ,javax.servlet.http,org.apache.camel.component.twitter";version="1.0.0.
+ SNAPSHOT",com.redhat.shopping.demo.application.camel.ws;uses:="javax.jw
+ s";version="1.0.0.SNAPSHOT",com.redhat.shopping.demo.application.pojos.
+ jpa;uses:="javax.xml.bind.annotation";version="1.0.0.SNAPSHOT",org.apac
+ he.camel.salesforce.dto;uses:="org.apache.camel.component.salesforce.ap
+ i.dto,com.thoughtworks.xstream.annotations,org.codehaus.jackson.annotat
+ e";version="1.0.0.SNAPSHOT"
 Import-Package: com.mysql.jdbc,com.thoughtworks.xstream.annotations;vers
- ion="[1.4,2)",javax.jws,javax.ws.rs;version="[2.0,3)",javax.xml.bind.an
- notation,org.apache.activemq.camel.component;version="[5.9,6)",org.apac
- he.camel;version="[2.12,3)",org.apache.camel.builder;version="[2.12,3)"
- ,org.apache.camel.component.gae.auth;version="[2.12,3)",org.apache.came
- l.component.salesforce;version="[2.12,3)",org.apache.camel.component.sa
- lesforce.api.dto;version="[2.12,3)",org.apache.camel.component.sql;vers
- ion="[2.12,3)",org.apache.camel.component.twitter;version="[2.12,3)",or
- g.apache.camel.converter.jaxb;version="[2.12,3)",org.apache.camel.model
- ;version="[2.12,3)",org.apache.commons.dbcp;version="[1.4,2)",org.apach
- e.commons.io,org.apache.log4j;version="[1.2,2)",org.codehaus.jackson.an
- notate;version="[1.9,2)",org.osgi.service.blueprint;version="[1.0.0,2.0
- .0)"
+ ion="[1.4,2)",javax.jws,javax.servlet.http;version="[2.5,3)",javax.ws.r
+ s;version="[2.0,3)",javax.xml.bind.annotation,org.apache.activemq.camel
+ .component;version="[5.9,6)",org.apache.camel;version="[2.12,3)",org.ap
+ ache.camel.builder;version="[2.12,3)",org.apache.camel.component.gae.au
+ th;version="[2.12,3)",org.apache.camel.component.jetty;version="[2.12,3
+ )",org.apache.camel.component.salesforce;version="[2.12,3)",org.apache.
+ camel.component.salesforce.api.dto;version="[2.12,3)",org.apache.camel.
+ component.sql;version="[2.12,3)",org.apache.camel.component.twitter;ver
+ sion="[2.12,3)",org.apache.camel.converter.jaxb;version="[2.12,3)",org.
+ apache.camel.model;version="[2.12,3)",org.apache.commons.dbcp;version="
+ [1.4,2)",org.apache.commons.io,org.apache.log4j;version="[1.2,2)",org.c
+ odehaus.jackson.annotate;version="[1.9,2)",org.osgi.service.blueprint;v
+ ersion="[1.0.0,2.0.0)"
 Tool: Bnd-1.50.0

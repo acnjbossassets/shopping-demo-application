@@ -62,4 +62,7 @@
 
 	<bean id="buyProductValidation"
 		class="com.redhat.shopping.demo.application.camel.pojo.BuyProductValidation"></bean>
+		
+		
+		<bean id="jetty" class="org.apache.camel.component.jetty.JettyHttpComponent"/>
 </blueprint>
