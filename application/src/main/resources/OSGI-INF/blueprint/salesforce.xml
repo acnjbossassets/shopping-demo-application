@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0"
+           xsi:schemaLocation="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.0.0.xsd
+             http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+             http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+
+<!-- OSGi blueprint property placeholder -->
+  <cm:property-placeholder id="placeholder" persistent-id="com.redhat.salesforce" />
+
+  <bean id="salesforce" class="org.apache.camel.component.salesforce.SalesforceComponent">
+    <property name="loginConfig">
+      <bean class="org.apache.camel.component.salesforce.SalesforceLoginConfig">
+        <property name="clientId" value="${clientId}"/>
+        <property name="clientSecret" value="${clientSecret}"/>
+        <property name="userName" value="${userName}"/>
+        <property name="password" value="${password}"/>
+      </bean>
+    </property>
+  </bean>
+  
+
+
+  <camelContext xmlns="http://camel.apache.org/schema/blueprint" id="salesforce-example-context">
+    <dataFormats>
+      <json id="productJson" library="Jackson" unmarshalTypeName="org.apache.camel.salesforce.dto.ProductsObject__c" />
+    </dataFormats>
+    <route id="salesforce-route">
+      <from uri="file:work/salesforce/input" />
+      <log message="Receiving file ${file:name}" />
+      <log message="Sending file ${file:name} to Salesforce" />
+      <unmarshal ref="productJson" />
+      <setHeader headerName="SalesforceEndpointConfig.SOBJECT_EXT_ID_VALUE">
+        <simple>${body.name}</simple>
+      </setHeader>
+      <log message="Creating products with name ${body.name}..." />
+      <to uri="salesforce:upsertSObject?sObjectName=ProductsObject__c&amp;sObjectIdName=Name" />
+      <log message="Done creating products with success=${body.success} and errors=${body.errors}" />
+    </route>
+  </camelContext>
+</blueprint>

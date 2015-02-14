@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src='js/libs/jquery-1.8.3/jquery.min.js'></script>
+    <script>
+    function showProducts(){
+        $('#result').html("");
+        $.ajax({ type: "GET",   
+                 url: "/route/shoppingApplication/products",   
+                 async: false,
+                 success : function(text)
+                    {
+                        alert(text);
+                        $.each(text, function(i, item) {
+                            alert(item.productCode);
+                            $('<tr>').html(
+                                "<td>"+(item.productCode)+"</td>"+
+                                "<td>"+(item.productName)+"</td>"+
+                                "<td>"+(item.productLine)+"</td>"+
+                                "<td>"+(item.productDescription)+"</td>"+
+                                "<td>"+(item.quantityInStock)+"</td>"+
+                                "<td>"+(item.buyPrice)+"</td>"
+                                 ).appendTo('#result');
+            
+                             });
+                    $('#result').css("display","block");
+                     }
+                });
+        }
+
+
+
+function authenticate(){
+		window.open("http://localhost:8080/authorize");
+}
+
+function buyProducts(){
+        $('#result').html("");
+        var cookieValue = document.cookie;
+        $.ajax({ type: "GET",   
+                 url: "/route/shoppingApplication/products"+document.getElementById('productCode').value+"/buy",   
+                 async: false,
+                 success : function(text)
+                    {alert(text) }
+                });
+        }  
+     
+        }
+        
+function createInputBuyProducts(){
+		if(cookieValue!='isAuthenticated=false'){
+        	productCode+=":notAuthenticated";
+        	alert("Buying products requires authentication. You will be directed to the google authentication page now");
+        	authenticate();
+        }
+        $('#userInput').html("");
+        $('#userInput').html("<input type='text' id='productCode'/>"+
+            "<input type='button' id='buyProducts' value='BUY' onclick='buyProducts()'/>"
+            );
+    }
+</script>
+
+
+</head>
+<body>
+<h2>Welcome to shopping application!</h2>
+<h5>Choose an option</h5>
+<input type="button" id="showProducts" value="Show All Products" onclick="showProducts()"/>
+<input type="button" id="addProducts" value="Add New Products"/>
+<input type="button" id="buyProducts" value="Buy Existing Products" onclick="createInputBuyProducts()"/>
+<input type="button" id="buyProducts" value="Authenticate" onclick="auhtenticate()"/>
+<div id="userInput"/>
+<table id="result" border="10" style="display:none"/></table>
+</body>
+</html>

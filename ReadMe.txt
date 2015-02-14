@@ -15,4 +15,6 @@ then please enter this in the Karaf Console:
 	features:install camel-gae
 	features:install camel-twitter
 	features:install  camel-jackson
-    osgi:install -s mvn:com.redhat/shopping-demo-application/1.0.0-SNAPSHOT
+	features:install camel-salesforce
+	osgi:install -s war:mvn:com.redhat/application-interface/1.0.0-SNAPSHOT/war?Web-ContextPath=shoppingRest
+    osgi:install -s wrap:mvn:com.redhat/application/1.0.0-SNAPSHOT
