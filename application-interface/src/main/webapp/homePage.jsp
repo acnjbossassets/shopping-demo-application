@@ -1,7 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.*" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <script src='js/libs/jquery-1.8.3/jquery.min.js'></script>
+    <script src='http://code.jquery.com/jquery-1.11.2.min.js'></script>
     <script>
     
     
@@ -63,40 +67,16 @@ function createInputBuyProducts(){
             "<input type='button' id='buyProducts' value='BUY' onclick='buyProducts()'/>"
             );
     }
-    
-    
-    
-    
-     // Cookies
-        function createCookie(name, value, days) {
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                var expires = "; expires=" + date.toGMTString();
-            }
-            else var expires = "";
-
-            var fixedName = '<%= Request["formName"] %>';
-            name = fixedName + name;
-
-            document.cookie = name + "=" + value + expires + "; path=/";
-        }
-
-        function readCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
-
-        function eraseCookie(name) {
-            createCookie(name, "", -1);
-        }
 </script>
+<%
+Boolean displayAuthentication = true;
+if(request.getSession().getAttribute("displayAuthentication")==null){
+    request.getSession().setAttribute("displayAuthentication",true);
+}else{
+    displayAuthentication = true;
+}
+
+%>
 
 
 </head>
@@ -106,8 +86,26 @@ function createInputBuyProducts(){
 <input type="button" id="showProducts" value="Show All Products" onclick="showProducts()"/>
 <input type="button" id="addProducts" value="Add New Products"/>
 <input type="button" id="buyProducts" value="Buy Existing Products" onclick="createInputBuyProducts()"/>
+
+<%  if(displayAuthentication){%>
 <input type="button" id="buyProducts" value="Authenticate" onclick="authenticate()"/>
+<%}%>
+
 <div id="userInput"/>
 <table id="result" border="10" style="display:none"/></table>
+
+<% if(displayAuthentication){%>
+<div id="userContactsDetails">
+    <%  if(request.getSession().getAttribute("userContacts") != null){%>
+        <p>The user has been authenticated following is the contact info</p>
+
+        <%List<String> userContacts = (List<String>)request.getSession().getAttribute("userContacts");
+        for (String contact:userContacts ) {%>
+                    <div><%= contact%></div>
+            <%}
+        }
+        %>
+</div>
+<%}%>
 </body>
 </html>

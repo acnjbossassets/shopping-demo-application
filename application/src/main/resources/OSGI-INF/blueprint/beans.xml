@@ -26,7 +26,8 @@
 		<property name="consumerSecret" value="anonymous" />
 	</bean>
 
-	<bean id="gauthRouteBuilder" class="com.redhat.shopping.demo.application.camel.routes.GauthRouteBuilder"></bean>
+	<bean id="gauthRouteBuilder" class="com.redhat.shopping.demo.application.camel.routes.GauthRouteBuilder">
+	</bean>
 	
 	<bean id="buyNewProduct"
 		class="com.redhat.shopping.demo.application.camel.routes.BuyNewProduct" />
@@ -62,7 +63,6 @@
 
 	<bean id="buyProductValidation"
 		class="com.redhat.shopping.demo.application.camel.pojo.BuyProductValidation"></bean>
-		
 		
 		<bean id="jetty" class="org.apache.camel.component.jetty.JettyHttpComponent"/>
 </blueprint>

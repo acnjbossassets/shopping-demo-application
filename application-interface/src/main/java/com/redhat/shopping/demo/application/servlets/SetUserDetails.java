@@ -1,6 +1,7 @@
 package com.redhat.shopping.demo.application.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -8,20 +9,42 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SetUserDetails extends HttpServlet {
-	
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String accessToken = request.getParameter("oauth_token");
-		String accessTokenSecret = request.getParameter("oauth_verifier");
-		Cookie oathToken = new Cookie("ACCESS-TOKEN", accessToken);
-		Cookie oathTokenSecret = new Cookie("ACCESS-TOKEN-SECRET", accessTokenSecret);
-		oathToken.setMaxAge(3600);
-		oathTokenSecret.setMaxAge(3600);
-		response.addCookie(oathToken);
-		response.addCookie(oathTokenSecret);
-		response.sendRedirect("/shoppingApplication");
-	}
+import com.redhat.shopping.demo.application.beans.TokenLoginService;
 
+public class SetUserDetails extends HttpServlet {
+
+	
+	private static final int ONE_HOUR = 3600;
+
+
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String accessToken = request.getParameter("accessToken");
+		String accessTokenSecret = request.getParameter("accessTokenSecret");
+		List<String> userContacts = null;
+		Cookie accessTokenCookie = new Cookie("ACCESS-TOKEN", accessToken);
+        Cookie accessTokenSecretCookie = new Cookie("ACCESS-TOKEN-SECRET", accessTokenSecret); 
+        accessTokenCookie.setPath("/oauth/");
+        accessTokenCookie.setMaxAge(ONE_HOUR);
+        accessTokenSecretCookie.setPath("/oauth/");
+        accessTokenSecretCookie.setMaxAge(ONE_HOUR);
+        response.addCookie(accessTokenCookie);
+        response.addCookie(accessTokenSecretCookie);
+		try {
+		 userContacts = new TokenLoginService().getContactNames(accessToken, accessTokenSecret);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.getSession().setAttribute("userContacts", userContacts);
+		request.getSession().setAttribute("displayAuthentication", true);
+		response.sendRedirect("/shoppingApplication");
+		
+		}
+
+	
+	public static void main(String[] args) {
+		
+		
+	}
 }
