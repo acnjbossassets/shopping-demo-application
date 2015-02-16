@@ -39,25 +39,20 @@
         <setHeader headerName="MSRP">
             <simple>214.3</simple>
         </setHeader>
-        <to uri="sql:{{sql.Products.addProduct}}"/>
-        <setBody>
-            <simple>Added a new product:${body.productName}</simple>
-        </setBody>
-        <to uri="vm:productAdditionTweet"/>
+        <multicast parallelProcessing="true">
+            <to uri="sql:{{sql.Products.addProduct}}"/>
+            <setBody>
+                <simple>Added a new product:${body.productName}</simple>
+            </setBody>
+            <to uri="vm:productAdditionTweet"/>
+        </multicast>
     </route>
-    
-    
     <route>
-    <from uri="activemq:buyProductsByCode"/>
-    <setHeader headerName="productCode">
-            <simple>${body[0]}</simple>
-        </setHeader>
+        <from uri="activemq:buyProductsByCode"/>
         <log message="Executing {{sql.Products.updateProduct}}"/>
         <log message="Product Code value ${header.productCode}"/>
         <to uri="sql:{{sql.Products.updateProduct}}"/>
     </route>
-    
-    
 </camelContext>
 
 </blueprint>

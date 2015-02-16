@@ -17,17 +17,9 @@ public class BuyNewProduct extends RouteBuilder {
 						true);				
 			}
 		})
-		.log("firing sql query to verify product availability")
-		.to("sql:{{sql.Products.checkAvailability}}")
-		.choice()
-		.when(simple("${body}>0"))
-		.setHeader("productAvailable", constant(true))
+		.setHeader("productCode",simple("${body[0]}"))
 		.to("activemq:buyProductsByCode")
-		.transform(constant("Thank you for buying the products"))
-		.otherwise()
-		.setHeader("productAvailable", constant(false))
-		.transform(constant("The product is out of stock"));
-		
+		.transform(constant("Thank you for buying the products"));
 	}
 	
 	

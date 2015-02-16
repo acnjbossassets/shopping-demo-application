@@ -3,6 +3,7 @@ package com.redhat.shopping.demo.application.camel.routes;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.URL;
 import java.util.List;
 
 import org.apache.camel.Exchange;
@@ -23,10 +24,9 @@ public class AddProductRoute extends RouteBuilder {
 		.process(new Processor() {
 			
 			public void process(Exchange exchange) throws Exception {
-				String filePath = (String)exchange.getIn().getBody(List.class).get(0);
-				System.out.println("FilePath = "+filePath);
-				if(filePath!=null){
-					IOUtils.copy(new FileInputStream(new File(filePath)),new FileOutputStream(new File("C:/Users/sicilian/Documents/GitHub/shopping-demo-application/data/datafile/add_products.xml")));
+				String urlPath = (String)exchange.getIn().getBody(List.class).get(0);
+				if(urlPath!=null){
+					IOUtils.copy((new URL(urlPath)).openStream(),new FileOutputStream(new File("C:/Users/sicilian/Documents/GitHub/shopping-demo-application/data/datafile/add_products.xml")));
 				}else{
 				exchange.getIn().setBody("File Path Is Null");
 				}
@@ -34,7 +34,6 @@ public class AddProductRoute extends RouteBuilder {
 				
 			}
 		});
-		
 		
 		from("file:C:/Users/sicilian/Documents/GitHub/shopping-demo-application/data/datafile")
 		.log("File-data = ${body}")
