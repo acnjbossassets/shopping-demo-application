@@ -2,47 +2,70 @@ package com.redhat.shopping.demo.application.camel.routes;
 
 import java.net.URLEncoder;
 
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.gae.auth.GAuthUpgradeBinding;
 
-
 public class GauthRouteBuilder extends RouteBuilder {
+	private String handlerLocation;
+	private String consumerUrl; 
+	private String authorizeUrl;
 
-	
-	private static final int ONE_HOUR = 3600;
-	
 	@Override
 	public void configure() throws Exception {
 		getContext().setTracing(true);
-        String encodedCallback = URLEncoder.encode("http://localhost:8080/camelServelt/oauth/handler", "UTF-8");
-        String encodedScope = URLEncoder.encode("https://www.google.com/m8/feeds/", "UTF-8");
-        from("jetty:http://0.0.0.0:8080/authorize")
-            .to("gauth:authorize?callback=" + encodedCallback + "&scope=" + encodedScope);
-        from("jetty:http://0.0.0.0:8080/camelServelt/oauth/handler")
-        	.log("Inside Upgradation Process")
-        	.to("gauth:upgrade")
-        	.log("Upgraded tokens")
-        	.process(new Processor() {
-				
-				public void process(Exchange exchange) throws Exception {
-
-			        String accessToken = exchange.getIn().getHeader(GAuthUpgradeBinding.GAUTH_ACCESS_TOKEN, String.class);
-			        String accessTokenSecret = exchange.getIn().getHeader(GAuthUpgradeBinding.GAUTH_ACCESS_TOKEN_SECRET, String.class);
-			        log.info("Access Token :::"+accessToken);
-			        log.info("Access Token Secret :::"+accessTokenSecret);
-			        exchange.getOut().setHeader("accessToken",accessToken);
-			        exchange.getOut().setHeader("accessTokenSecret",accessTokenSecret);
-			        exchange.getOut().setHeader(Exchange.HTTP_QUERY, constant("accessToken="+accessToken+"&accessTokenSecret="+accessTokenSecret));
-				}
-			})
-			.to("http://localhost:8181/shoppingApplication/oauth/login?bridgeEndpoint=true&amp;throwExceptionOnFailure=false&accessToken="+simple("${headers.accessToken}")+"&accessTokenSecret="+simple("${headers.accessTokenSecret}"))
-			;
+		String encodedCallback = URLEncoder
+				.encode(getHandlerLocationValidateIP(),
+						"UTF-8");
+		String encodedScope = URLEncoder.encode(
+				"https://www.google.com/m8/feeds/", "UTF-8");
+		from("jetty:"+getAuthorizeUrl()).to(
+				"gauth:authorize?callback=" + encodedCallback + "&scope="
+						+ encodedScope);
+		from("jetty:"+getHandlerLocation())
+				.log("Inside Upgradation Process")
+				.to("gauth:upgrade")
+				.log("Upgraded tokens")
+				.to(consumerUrl+"?bridgeEndpoint=true&amp;throwExceptionOnFailure=false&accessToken="
+						+ simple("${headers."
+								+ GAuthUpgradeBinding.GAUTH_ACCESS_TOKEN + "}")
+						+ "&accessTokenSecret="
+						+ simple("${headers."
+								+ GAuthUpgradeBinding.GAUTH_ACCESS_TOKEN_SECRET
+								+ "}"));
 	}
 
 
-	public static int getOneHour() {
-		return ONE_HOUR;
+	private String getHandlerLocationValidateIP() {
+		if(getHandlerLocation().contains("0.0.0.0")){
+			return getHandlerLocation().replace("0.0.0.0", "localhost");
+		}
+		return getHandlerLocation();
 	}
+
+
+	public String getHandlerLocation() {
+		return handlerLocation;
+	}
+
+	public void setHandlerLocation(String handlerLocation) {
+		this.handlerLocation = handlerLocation;
+	}
+
+	public String getConsumerUrl() {
+		return consumerUrl;
+	}
+
+	public void setConsumerUrl(String consumerUrl) {
+		this.consumerUrl = consumerUrl;
+	}
+
+	public String getAuthorizeUrl() {
+		return authorizeUrl;
+	}
+
+	public void setAuthorizeUrl(String authorizeUrl) {
+		this.authorizeUrl = authorizeUrl;
+	}
+
+	
 }

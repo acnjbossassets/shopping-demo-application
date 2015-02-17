@@ -18,6 +18,7 @@ public class TwitterRoute extends RouteBuilder {
     }
 
     public void setAccessToken(String accessToken) {
+    	log.info("Setting "+accessToken+" as accesstoken");
         this.accessToken = accessToken;
     }
 
@@ -26,6 +27,7 @@ public class TwitterRoute extends RouteBuilder {
     }
 
     public void setAccessTokenSecret(String accessTokenSecret) {
+    	log.info("Setting "+accessTokenSecret+" as accesstokenSecret");
         this.accessTokenSecret = accessTokenSecret;
     }
 
@@ -34,6 +36,7 @@ public class TwitterRoute extends RouteBuilder {
     }
 
     public void setConsumerKey(String consumerKey) {
+    	log.info("Setting "+consumerKey+" as consumerKey");
         this.consumerKey = consumerKey;
     }
 
@@ -42,6 +45,7 @@ public class TwitterRoute extends RouteBuilder {
     }
 
     public void setConsumerSecret(String consumerSecret) {
+    	log.info("Setting "+consumerSecret+" as consumerSecret");
         this.consumerSecret = consumerSecret;
     }
 
@@ -55,6 +59,7 @@ public class TwitterRoute extends RouteBuilder {
         tc.setConsumerKey(consumerKey);
         tc.setConsumerSecret(consumerSecret);
 		from("vm:productAdditionTweet")
+			.transform(simple("Added a new product:${body.productName}"))
 			.convertBodyTo(String.class)
 			.log("${body}")
     		.log("Tweeting the product information: ${body}")

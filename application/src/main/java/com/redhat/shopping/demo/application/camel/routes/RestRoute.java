@@ -23,17 +23,16 @@ public class RestRoute extends RouteBuilder {
 								CxfConstants.OPERATION_NAME, String.class);
 						exchange.getIn().setHeader("resourceMapping",
 								"vm:" + operationName);
-						exchange.getIn().setHeader("awaitingResponse",
-								true);
+						exchange.getIn().setHeader("awaitingResponse", true);
 					}
 				}).log("${header.resourceMapping}")
 				.dynamicRouter(method(RestRoute.class, "slip"));
 	}
 
 	public String slip(Exchange exchange) {
-		if (exchange.getIn().getHeader("awaitingResponse",Boolean.class)){
-			exchange.getIn().setHeader("awaitingResponse",false);
-			return exchange.getIn().getHeader("resourceMapping",String.class);
+		if (exchange.getIn().getHeader("awaitingResponse", Boolean.class)) {
+			exchange.getIn().setHeader("awaitingResponse", false);
+			return exchange.getIn().getHeader("resourceMapping", String.class);
 		}
 		return null;
 	}
