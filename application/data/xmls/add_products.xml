@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <products-list>
 	<products>
-		<productCode>clientDemoMyId1</productCode>
-		<productName>Fuse Client Demo 1</productName>
+		<productCode>myiddddd</productCode>
+		<productName>Temp3</productName>
 		<productLine>Motorcycles</productLine>
 		<productScale>1:10</productScale>
 		<productVendor>Min Lin Diecast</productVendor>
@@ -12,8 +12,8 @@
 		<MSRP>95.7</MSRP>
 	</products>
 	<products>
-		<productCode>clientDemoMyId2</productCode>
-		<productName>Fuse Client Demo 2</productName>
+		<productCode>zziddddd</productCode>
+		<productName>Temp4</productName>
 		<productLine>Classic Cars</productLine>
 		<productScale>1:10</productScale>
 		<productVendor>Classic Metal Creations</productVendor>
@@ -23,8 +23,8 @@
 		<MSRP>214.3</MSRP>
 	</products>
 	<products>
-		<productCode>clientDemoMyId3</productCode>
-		<productName>Fuse Client Demo 3</productName>
+		<productCode>wwddddd</productCode>
+		<productName>Temp5</productName>
 		<productLine>Motorcycles</productLine>
 		<productScale>1:10</productScale>
 		<productVendor>Highway 66 Mini Classics</productVendor>

@@ -1,7 +1,5 @@
 package com.redhat.shopping.demo.application.camel.routes;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.List;
 
@@ -27,20 +25,23 @@ public class AddProductRoute extends RouteBuilder {
 			public void process(Exchange exchange) throws Exception {
 				String urlPath = (String)exchange.getIn().getBody(List.class).get(0);
 				if(urlPath!=null){
-					IOUtils.copy((new URL(urlPath)).openStream(),new FileOutputStream(new File(getProductDirectorySource())+"/addProducts.xml"));
+					exchange.getIn().setBody(IOUtils.toByteArray((new URL(urlPath)).openStream()));
 				}else{
 				exchange.getIn().setBody("File Path Is Null");
 				}
 				
 				
 			}
-		});
-		
-		from("file:"+getProductDirectorySource()+"?autoCreate=true")
-		.log("File-data = ${body}")
+		})
 		.split().xpath("/products-list/products").parallelProcessing()
+		.log("${body}")
 		.to("activemq:queue:insertProductsFromQueue")
-		.transform().constant("Your Request Is Being Processed");
+		.process(new Processor(){
+			public void process(Exchange exchange) throws Exception {
+				exchange.getOut().setBody("Your Request Is Being Processed".getBytes());
+			}
+		})
+		;
 		
 		
 	}

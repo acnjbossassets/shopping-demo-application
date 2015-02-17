@@ -18,6 +18,7 @@ public class SalesForceRoute extends RouteBuilder {
         loginConfig.setLoginUrl("https://login.salesforce.com/");
 		sc.setLoginConfig(loginConfig);
         from("vm:salesforceUpdate")
+        .log("Entered Sales Force Update Route")
 		.processRef("salesForceProductProcessor")
 		.log("Creating products with name ${body.name}...")
 		.to("salesforce:upsertSObject?sObjectName=ProductsObject__c&amp;sObjectIdName=Name")

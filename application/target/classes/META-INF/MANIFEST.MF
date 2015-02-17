@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1424187372374
+Bnd-LastModified: 1424211765522
 Build-Jdk: 1.7.0_51
 Built-By: sicilian
 Bundle-ManifestVersion: 2
@@ -27,8 +27,8 @@ Import-Package: com.mysql.jdbc,com.thoughtworks.xstream.annotations;vers
  he.camel;version="[2.12,3)",org.apache.camel.builder;version="[2.12,3)"
  ,org.apache.camel.component.gae.auth;version="[2.12,3)",org.apache.came
  l.component.jetty;version="[2.12,3)",org.apache.camel.component.salesfo
- rce;version="[2.12,3)",org.apache.camel.component.salesforce.api.dto;ve
- rsion="[2.12,3)",org.apache.camel.component.sql;version="[2.12,3)",org.
+ rce;version="[2.14,3)",org.apache.camel.component.salesforce.api.dto;ve
+ rsion="[2.14,3)",org.apache.camel.component.sql;version="[2.12,3)",org.
  apache.camel.component.twitter;version="[2.12,3)",org.apache.camel.conv
  erter.jaxb;version="[2.12,3)",org.apache.camel.model;version="[2.12,3)"
  ,org.apache.commons.dbcp;version="[1.4,2)",org.apache.commons.io,org.ap
